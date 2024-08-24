@@ -1,0 +1,41 @@
+{
+	"name": "file-jedi-worker",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"use_dev_config": "cp -fr src/config.dev.ts src/config.ts",
+		"use_prod_config": "cp -fr src/config.prod.ts src/config.ts",
+		"build": "vite build",
+		"deploy": "npm run use_prod_config && wrangler deploy",
+		"dev": "npm run use_dev_config && wrangler dev --local-protocol https",
+		"start": "npm run use_dev_config && wrangler dev",
+		"test": "vitest",
+		"cf-typegen": "wrangler types"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.4.5",
+		"@cloudflare/workers-types": "^4.20240821.1",
+		"@typescript-eslint/eslint-plugin": "^6.0.0",
+		"@typescript-eslint/parser": "^6.0.0",
+		"eslint": "^8.44.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-import": "^2.27.5",
+		"eslint-plugin-json": "^3.1.0",
+		"eslint-plugin-markdown": "^3.0.0",
+		"eslint-plugin-prettier": "^5.0.0-alpha.2",
+		"eslint-plugin-unused-imports": "^3.0.0",
+		"eslint-plugin-yml": "^1.8.0",
+		"lint-staged": "^15.2.0",
+		"prettier": "^3.0.0",
+		"typescript": "^5.5.2",
+		"vite": "^4.4.0",
+		"vite-plugin-remove-console": "^2.1.1",
+		"vite-tsconfig-paths": "^5.0.1",
+		"vitest": "1.5.0",
+		"wrangler": "^3.72.2"
+	},
+	"dependencies": {
+		"@aws-sdk/client-ses": "^3.637.0",
+		"zod": "^3.23.8"
+	}
+}
