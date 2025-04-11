@@ -24,10 +24,12 @@ interface Env {
 const sendEmail = async ({
 	text,
 	subject,
+	email,
 	env,
 }: {
 	text: string
 	subject: string
+	email: string | null
 	env: Env
 }) => {
 	const client = new SESClient({
@@ -44,6 +46,7 @@ const sendEmail = async ({
 				Destination: {
 					ToAddresses: [env.FORWARD],
 				},
+				ReplyToAddresses: email ? [email] : [],
 				Message: {
 					Subject: {
 						Data: subject, // Subject of the email
@@ -85,10 +88,20 @@ export default {
 				const data = (await request.json()) as {
 					subject: string
 					message: string
+					email: string | null
 				}
-				object({ subject: string(), message: string() }).parse(data)
+				object({
+					subject: string(),
+					message: string(),
+					email: string().email().nullable(),
+				}).parse(data)
 
-				await sendEmail({ text: data.message, subject: data.subject, env })
+				await sendEmail({
+					text: data.message,
+					subject: data.subject,
+					env,
+					email: data.email,
+				})
 
 				// Respond back with some processed data or confirmation
 				return new Response(
